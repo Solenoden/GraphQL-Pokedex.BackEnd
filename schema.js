@@ -4,9 +4,14 @@ let rootQueryConfig = {
     name: 'RootQueryType',
     fields: {}
 };
-require('./resolvers/pokemonResolver').register(rootQueryConfig);
-const rootQuery = new GraphQLObjectType(rootQueryConfig);
+let rootMutationConfig = {
+    name: 'RootMutationType',
+    fields: {}
+};
+
+require('./resolvers/pokemonResolver').register(rootQueryConfig, rootMutationConfig);
 
 module.exports = new GraphQLSchema({
-    query: rootQuery
-})
+    query: new GraphQLObjectType(rootQueryConfig),
+    mutation: new GraphQLObjectType(rootMutationConfig)
+});
