@@ -8,6 +8,12 @@ app.use('/graphql', graphqlHTTP({
    graphiql: true
 }));
 
+console.log('processId:' + process.pid + ' Connecting to database');
+const dbHelper = require('./common/mongoDBHelper');
+dbHelper.connectToDatabase(app).catch(error => {
+   console.error('processId:' + process.pid + ' Failed to connect to database: ' + error);
+});
+
 const port = process.env.PORT || 3000;
 app.listen(port);
 console.log('processId:' + process.pid + ' APP.JS running and listening on port ' + port + '...');
