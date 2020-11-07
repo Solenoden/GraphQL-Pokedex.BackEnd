@@ -1,11 +1,12 @@
 const {GraphQLList, GraphQLInt, GraphQLString} = require('graphql');
+const pokemonDAL = require('../dataAccess/pokemonDAL');
 const {pokemon} = require('../data/pokemonData');
 const {PokemonType} = require('../types/PokemonType');
 const Pokemon = require('../models/Pokemon');
 
 exports.register = (rootQueryConfig, rootMutationConfig) => {
     rootQueryConfig.fields.pokemonGetAll = pokemonGetAll;
-    rootQueryConfig.fields.pokemonGetById = pokemonGetById;
+    rootQueryConfig.fields.pokemonGetByName = pokemonGetByName;
 
     rootMutationConfig.fields.pokemonCreate = pokemonCreate;
     rootMutationConfig.fields.pokemonUpdate = pokemonUpdate;
@@ -14,17 +15,17 @@ exports.register = (rootQueryConfig, rootMutationConfig) => {
 const pokemonGetAll = {
     type: new GraphQLList(PokemonType),
     resolve(parent, args) {
-        return pokemon;
+        return pokemonDAL.getPokemon();
     }
 }
 
-const pokemonGetById = {
+const pokemonGetByName = {
     type: PokemonType,
     args: {
-        id: {type: GraphQLInt}
+        name: {type: GraphQLString}
     },
     resolve(parent, args) {
-        return pokemon.find(currentPokemon => currentPokemon.id === args.id);
+        return pokemonDAL.getPokemonByName(args.name);
     }
 }
 
