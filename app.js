@@ -9,7 +9,7 @@ app.use('/graphql', graphqlHTTP({
 }));
 
 console.log('processId:' + process.pid + ' Connecting to database');
-const dbHelper = require('./common/mongoDBHelper');
+const dbHelper = require('./common/dbHelper');
 dbHelper.connectToDatabase(app).catch(error => {
    console.error('processId:' + process.pid + ' Failed to connect to database: ' + error);
 });
