@@ -1,4 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID;
 const databaseConfig = require('../config/databaseConfig');
 const q = require('q');
 
@@ -28,20 +29,12 @@ exports.connectToDatabase = (app) => {
 }
 
 const getAll = (collectionName, query = {}, sort = {}, limit = -1) => {
-    let deferred = q.defer();
     const collection = database.collection(collectionName);
-
-    collection.find(query, {sort, limit}).toArray().then(result => {
-        deferred.resolve(result);
-    }).catch(error => {
-        deferred.reject(error);
-    });
-
-    return deferred.promise;
+    return collection.find(query, {sort, limit}).toArray();
 }
 exports.getAll = getAll;
 
-exports.get = (collectionName, query = {}) => {
+const get = (collectionName, query = {}) => {
     let deferred = q.defer();
 
     getAll(collectionName, query, {}, 1).then(result => {
@@ -51,4 +44,44 @@ exports.get = (collectionName, query = {}) => {
     });
 
     return deferred.promise;
+}
+exports.get = get;
+
+exports.getById = (collectionName, id) => {
+    const query = {_id: new ObjectID(id)};
+    return get(collectionName, query);
+}
+
+exports.insert = (collectionName, documentData) => {
+    let deferred = q.defer();
+    const collection = database.collection(collectionName);
+
+    if (documentData.hasOwnProperty('id')) delete documentData.id;
+    if (documentData.hasOwnProperty('_id')) delete documentData._id;
+
+    collection.insertOne(documentData).then(result => {
+        documentData.id = result.insertedId.toString();
+        delete documentData._id;
+
+        deferred.resolve(documentData);
+    }).catch(error => {
+        deferred.reject(error);
+    })
+
+    return deferred.promise;
+}
+
+const update = (collectionName, documentData, query, shouldUpsert = false) => {
+    const collection = database.collection(collectionName);
+
+    if (documentData.hasOwnProperty('id')) delete documentData.id;
+    if (documentData.hasOwnProperty('_id')) delete documentData._id;
+
+    return collection.updateOne(query, {$set: documentData}, {shouldUpsert});
+}
+exports.update = update;
+
+exports.updateById = (collectionName, documentData, id, shouldUpsert = false) => {
+    const query = {_id: new ObjectID(id)};
+    return update(collectionName, documentData, query, shouldUpsert);
 }
