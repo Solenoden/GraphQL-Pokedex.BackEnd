@@ -5,6 +5,8 @@ exports.PokemonType = new GraphQLObjectType({
     fields: () => ({
         id: {type: GraphQLString},
         name: {type: GraphQLString},
-        type: {type: GraphQLString}
+        type: {type: GraphQLString},
+        evolvesFromId: {type: GraphQLString},
+        evolvesToId: {type: GraphQLString}
     })
 });

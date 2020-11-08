@@ -28,9 +28,26 @@ exports.connectToDatabase = (app) => {
     return deferred.promise;
 }
 
-const getAll = (collectionName, query = {}, sort = {}, limit = -1) => {
+const getAll = (collectionName, query = {}, sort = {}, limit = 0) => {
+    let deferred = q.defer();
+
     const collection = database.collection(collectionName);
-    return collection.find(query, {sort, limit}).toArray();
+    collection.find(query, {sort, limit}).toArray().then(result => {
+        const data = result.map(currentData => {
+            if (currentData._id) {
+                currentData.id = currentData._id;
+                delete currentData._id;
+            }
+
+            return currentData;
+        });
+
+        deferred.resolve(data);
+    }).catch(error => {
+       deferred.reject(error);
+    });
+
+    return deferred.promise;
 }
 exports.getAll = getAll;
 
