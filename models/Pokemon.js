@@ -1,8 +1,8 @@
 class Pokemon {
-    constructor(id, name, type, evolvesFromId, evolvesToId) {
+    constructor(id, name, types, evolvesFromId, evolvesToId) {
         this.id = id;
         this.name = name;
-        this.type = type;
+        this.types = types;
         this.evolvesFromId = evolvesFromId;
         this.evolvesToId = evolvesToId;
     }

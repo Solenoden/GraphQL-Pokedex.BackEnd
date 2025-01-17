@@ -1,11 +1,11 @@
-const {GraphQLObjectType, GraphQLString} = require('graphql');
+const {GraphQLObjectType, GraphQLString, GraphQLList, GraphQLInt } = require('graphql');
 
 exports.PokemonType = new GraphQLObjectType({
     name: 'Pokemon',
     fields: () => ({
-        id: {type: GraphQLString},
+        id: {type: GraphQLInt},
         name: {type: GraphQLString},
-        type: {type: GraphQLString},
+        types: {type: GraphQLList(GraphQLString)},
         evolvesFromId: {type: GraphQLString},
         evolvesToId: {type: GraphQLString}
     })

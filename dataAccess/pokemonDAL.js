@@ -20,3 +20,7 @@ exports.insertPokemon = (pokemon) => {
 exports.updatePokemon = (id, pokemon) => {
     return dbHelper.updateById(DATABASE_COLLECTION.POKEMON, pokemon, id);
 }
+
+exports.getPokemonTypes = () => {
+    return dbHelper.getAll(DATABASE_COLLECTION.POKEMON_TYPES, {}, {});
+}
