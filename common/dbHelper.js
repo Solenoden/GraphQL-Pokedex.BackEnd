@@ -9,7 +9,7 @@ let database;
 exports.connectToDatabase = (app) => {
     let deferred = q.defer();
 
-    const uri = `mongodb+srv://${databaseConfig.DB_USER}:${databaseConfig.DB_PASSWORD}@cluster0.151v2.mongodb.net/${databaseConfig.DB_NAME}?retryWrites=true&w=majority`;
+    const uri = `mongodb://${databaseConfig.DB_USER}:${databaseConfig.DB_PASSWORD}@${databaseConfig.DB_HOST}/${databaseConfig.DB_NAME}?retryWrites=true&w=majority`;
 
     if (!mongoClient) {
         mongoClient = new MongoClient(uri, {useNewUrlParser: true, useUnifiedTopology: true});

@@ -5,15 +5,20 @@
   "main": "app.js",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "express": "^4.17.1",
     "express-graphql": "^0.11.0",
     "graphql": "^15.4.0",
     "mongodb": "^3.6.2",
     "q": "^1.5.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
   "scripts": {
     "start": "node app.js",
+    "serve": "nodemon start",
+    "start-containerized-environment": "docker-compose up -d database mongo-express",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
