@@ -18,8 +18,7 @@
   "scripts": {
     "start": "node app.js",
     "serve": "nodemon start",
-    "start-containerized-environment": "docker-compose up -d database mongo-express",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start-containerized-environment": "docker-compose up -d"
   },
   "repository": {
     "type": "git",
