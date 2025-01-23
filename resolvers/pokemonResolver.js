@@ -55,10 +55,10 @@ const pokemonCreate = {
         name: {type: GraphQLString},
         types: {type: GraphQLList(GraphQLString)},
         evolvesFromId: {type: GraphQLString},
-        evolvesToId: {type: GraphQLString},
+        evolvesToIds: {type: GraphQLList(GraphQLInt)},
     },
     resolve(parent, args) {
-        let pokemon = new Pokemon(args.id, args.name, args.types, args.evolvesFromId, args.evolvesToId);
+        let pokemon = new Pokemon(args.id, args.name, args.types, args.evolvesFromId, args.evolvesToIds);
         return pokemonDAL.insertPokemon(pokemon);
     }
 }
@@ -70,10 +70,10 @@ const pokemonUpdate = {
         name: {type: GraphQLString},
         types: {type: GraphQLList(GraphQLString)},
         evolvesFromId: {type: GraphQLString},
-        evolvesToId: {type: GraphQLString},
+        evolvesToIds: {type: GraphQLList(GraphQLInt)},
     },
     resolve(parent, args) {
-        const pokemon = new Pokemon(null, args.name, args.types, args.evolvesFromId, args.evolvesToId);
+        const pokemon = new Pokemon(null, args.name, args.types, args.evolvesFromId, args.evolvesToIds);
         return pokemonDAL.updatePokemon(args.id, pokemon).then(result => {
             pokemon.id = args.id;
             return pokemon;

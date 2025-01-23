@@ -6,7 +6,7 @@ exports.PokemonType = new GraphQLObjectType({
         id: {type: GraphQLInt},
         name: {type: GraphQLString},
         types: {type: GraphQLList(GraphQLString)},
-        evolvesFromId: {type: GraphQLString},
-        evolvesToId: {type: GraphQLString}
+        evolvesFromId: {type: GraphQLInt},
+        evolvesToIds: {type: GraphQLList(GraphQLInt)}
     })
 });
